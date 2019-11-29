@@ -1,0 +1,53 @@
+
+import React, { useState } from 'react';
+import { Checkbox } from 'antd';
+import Item from 'antd-mobile/lib/popover/Item';
+const CheckboxGroup = Checkbox.Group;
+
+interface props {
+
+}
+
+const visitorDetails: React.FC<props> = props => {
+    const data = [
+        { id: 1, value: '1', text: '图片1' },
+        { id: 2, value: '2', text: '图片2' },
+        { id: 3, value: '3', text: '图片3' },
+        { id: 4, value: '4', text: '图片4' },
+        { id: 5, value: '5', text: '图片5' },
+    ]
+    const [value,setValue] = useState()
+    const [allCheck,setAllcheck] = useState(false)
+    function onchange(value: any){
+        setValue(value)
+        setAllcheck(value.length == data.length)
+        console.log(value)
+    }
+    function handleCheckAll(e: { target: { checked: any; }; }){
+        const checked = e.target.checked
+        setAllcheck(checked)
+        if(checked){
+            const datas = data.map(item=>item.value)
+            console.log(datas.map(Number))
+            setValue(datas.map(Number))
+        }else {
+            setValue([])
+        }
+    }
+    return (
+        <div>
+            <Checkbox onChange={(e)=>handleCheckAll(e)} checked={allCheck}>全选</Checkbox>
+        <Checkbox.Group onChange={onchange} value={value}>
+            {
+                data.map(item => <div key={item.id}>
+                    <span>{item.text}</span>
+                    <Checkbox value={item.id}>{item.value}</Checkbox>
+                </div>)
+            }
+            </Checkbox.Group >
+    />
+        </div >
+    );
+};
+
+export default visitorDetails
